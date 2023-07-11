@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
+  AiOutlineBgColors,
+  AiOutlineDashboard,
+  AiOutlineShoppingCart,
+  AiOutlineUser,
+  AiOutlinePicLeft,
+  AiOutlinePicRight,
+} from "react-icons/ai";
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaBloggerB, FaClipboardList } from "react-icons/fa";
+import { ImBlog } from "react-icons/im";
+import { IoIosNotifications } from "react-icons/io";
+import { SiBrandfolder } from "react-icons/si";
 import { Layout, Menu, Button, theme } from "antd";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
@@ -15,46 +23,161 @@ const MainLayout = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
+  const navigate = useNavigate();
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
+        <div className="logo">
+          <h2 className="text-white fs-5 text-center py-3 mb-0">
+            <span className="sm-logo">MS</span>
+            <span className="lg-logo">MSRD</span>
+          </h2>
+        </div>
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          defaultSelectedKeys={[""]}
+          onClick={({ key }) => {
+            if (key === "signout") {
+            } else {
+              navigate(key);
+            }
+          }}
           items={[
             {
-              key: "1",
-              icon: <UserOutlined />,
-              label: "nav 1",
+              key: "",
+              icon: <AiOutlineDashboard className="fs-4" />,
+              label: "Dashboard",
             },
             {
-              key: "2",
-              icon: <VideoCameraOutlined />,
-              label: "nav 2",
+              key: "customers",
+              icon: <AiOutlineUser className="fs-4" />,
+              label: "Customers",
             },
             {
-              key: "3",
-              icon: <UploadOutlined />,
-              label: "nav 3",
+              key: "catalog",
+              icon: <AiOutlineShoppingCart className="fs-4" />,
+              label: "Catalog",
+              children: [
+                {
+                  key: "product",
+                  icon: <AiOutlineShoppingCart className="fs-4" />,
+                  label: "Add Product",
+                },
+                {
+                  key: "product-list",
+                  icon: <AiOutlineShoppingCart className="fs-4" />,
+                  label: "Product List",
+                },
+                {
+                  key: "brand",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Brand",
+                },
+                {
+                  key: "brand-list",
+                  icon: <SiBrandfolder className="fs-4" />,
+                  label: "Brand List",
+                },
+                {
+                  key: "category",
+                  icon: <BiCategoryAlt className="fs-4" />,
+                  label: "Category",
+                },
+                {
+                  key: "category-list",
+                  icon: <BiCategoryAlt className="fs-4" />,
+                  label: "Category List",
+                },
+                {
+                  key: "color",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Color",
+                },
+                {
+                  key: "color-list",
+                  icon: <AiOutlineBgColors className="fs-4" />,
+                  label: "Color List",
+                },
+              ],
+            },
+            {
+              key: "orders",
+              icon: <FaClipboardList className="fs-4" />,
+              label: "Orders",
+            },
+            {
+              key: "blogs",
+              icon: <FaBloggerB className="fs-4" />,
+              label: "Blogs",
+              children: [
+                {
+                  key: "blog",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Blog",
+                },
+                {
+                  key: "blog-list",
+                  icon: <FaBloggerB className="fs-4" />,
+                  label: "Blog List",
+                },
+                {
+                  key: "blog-category",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Blog Category",
+                },
+                {
+                  key: "blog-category-list",
+                  icon: <FaBloggerB className="fs-4" />,
+                  label: "Blog Category List",
+                },
+              ],
+            },
+            {
+              key: "enquiries",
+              icon: <FaClipboardList className="fs-4" />,
+              label: "Enquiries",
             },
           ]}
         />
       </Sider>
       <Layout>
-        <Header style={{ padding: 0, background: colorBgContainer }}>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-            style={{
-              fontSize: "16px",
-              width: 64,
-              height: 64,
-            }}
-          />
+        <Header
+          className="d-flex justify-content-between ps-1 pe-5"
+          style={{ padding: 0, background: colorBgContainer }}
+        >
+          {React.createElement(
+            collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+            {
+              className: "trigger",
+              onClick: () => setCollapsed(!collapsed),
+            }
+          )}
+          <div className="d-flex gap-4 align-items-center">
+            <div className="position-relative notification">
+              <IoIosNotifications className="fs-4" />
+              <div className="circle bg-warning rounded-circle position-relative">
+                <span>3</span>
+              </div>
+            </div>
+            <div>
+              <img
+                width={32}
+                height={32}
+                src="https://stroyka-admin.html.themeforest.scompiler.ru/variants/ltr/images/customers/customer-4-64x64.jpg"
+                alt=""
+              />
+            </div>
+            <div
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <h5 className="mb-0">Dhiraj</h5>
+              <p className="mb-0">dkm1036@gmail.com</p>
+            </div>
+          </div>
         </Header>
         <Content
           style={{
@@ -64,7 +187,7 @@ const MainLayout = () => {
             background: colorBgContainer,
           }}
         >
-          Content
+          <Outlet />
         </Content>
       </Layout>
     </Layout>
