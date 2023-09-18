@@ -153,7 +153,7 @@ const MainLayout = () => {
               onClick: () => setCollapsed(!collapsed),
             }
           )}
-          <div className="d-flex gap-4 align-items-center">
+          <div className="d-flex gap-4 align-items-center dropdown">
             <div className="position-relative notification">
               <IoIosNotifications className="fs-4" />
               <div className="circle bg-warning rounded-circle position-relative">
@@ -176,6 +176,26 @@ const MainLayout = () => {
             >
               <h5 className="mb-0">Dhiraj</h5>
               <p className="mb-0">dkm1036@gmail.com</p>
+            </div>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+              <li>
+                <Link
+                  className="dropdown-item py-1 mb-1"
+                  style={{ height: "auto", lineHeight: "20px" }}
+                  to="/"
+                >
+                  View Profile
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="dropdown-item py-1 mb-1"
+                  style={{ height: "auto", lineHeight: "20px" }}
+                  to="/"
+                >
+                  Signout
+                </Link>
+              </li>
             </div>
           </div>
         </Header>

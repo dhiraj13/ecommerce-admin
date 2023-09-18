@@ -37,7 +37,7 @@ const Addblog = () => {
   };
   return (
     <div>
-      <h3 className="mb-4">Add Blog</h3>
+      <h3 className="mb-4 title">Add Blog</h3>
       <Stepper
         steps={[
           { label: "Add Blog Details" },
