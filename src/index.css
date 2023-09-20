@@ -104,7 +104,4 @@ main::-webkit-scrollbar {
 .error {
   color: red;
   font-size: 12px;
-  padding: 50%;
-  margin: -2em -50% 0;
-  position: relative;
 }
