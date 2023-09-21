@@ -5,6 +5,7 @@ import { getBrands } from "../features/brand/brandSlice";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+
 const Brandlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {

@@ -5,6 +5,7 @@ import { getColors } from "../features/color/colorSlice";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+
 const Colorlist = () => {
   const dispatch = useDispatch();
   useEffect(() => {

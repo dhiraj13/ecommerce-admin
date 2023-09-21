@@ -5,6 +5,7 @@ import { getCategories } from "../features/pcategory/pcategorySlice";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+
 const Categorylist = () => {
   const dispatch = useDispatch();
   useEffect(() => {
