@@ -1,30 +1,52 @@
 import { Table } from "antd";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getBlogs } from "../features/blog/blogSlice";
+import { Link } from "react-router-dom";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
 const BlogList = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, []);
+  const blogState = useSelector((state) => state.blog);
+  const { blogs } = blogState;
+
   const columns = [
     {
       title: "SNo",
       dataIndex: "key",
     },
     {
-      title: "Name",
+      title: "Title",
       dataIndex: "name",
     },
     {
-      title: "Product",
-      dataIndex: "product",
+      title: "Category",
+      dataIndex: "category",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Action",
+      dataIndex: "action",
     },
   ];
   const data1 = [];
-  for (let i = 0; i < 46; i++) {
+  for (let i = 0; i < blogs.length; i++) {
     data1.push({
-      key: i,
-      name: `Edward King ${i}`,
-      product: 32,
-      status: `London, Park Lane no. ${i}`,
+      key: i + 1,
+      name: blogs[i].title,
+      category: blogs[i].category,
+      action: (
+        <>
+          <Link className="fs-4 text-danger" to="/">
+            <BiEdit />
+          </Link>
+          <Link className="ms-2 fs-4 text-danger" to="/">
+            <AiFillDelete />
+          </Link>
+        </>
+      ),
     });
   }
   return (
