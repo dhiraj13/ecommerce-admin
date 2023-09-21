@@ -31,7 +31,7 @@ const Colorlist = () => {
   const data1 = [];
   for (let i = 0; i < colors.length; i++) {
     data1.push({
-      key: i,
+      key: i + 1,
       name: colors[i].title,
       action: (
         <>
