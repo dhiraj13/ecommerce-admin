@@ -50,7 +50,7 @@ const Productlist = () => {
   const data1 = [];
   for (let i = 0; i < products.length; i++) {
     data1.push({
-      key: i,
+      key: i + 1,
       title: products[i].title,
       brand: products[i].brand,
       category: products[i].category,
