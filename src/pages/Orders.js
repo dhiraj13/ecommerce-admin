@@ -28,15 +28,28 @@ const Orders = () => {
       dataIndex: "product",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Amount",
+      dataIndex: "amount",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
     },
   ];
   const data1 = [];
   for (let i = 0; i < orders.length; i++) {
     data1.push({
       key: i + 1,
-      name: orders[i].title,
+      name: orders[i].orderBy.firstname,
+      product: orders[i].products
+        .map((product) => product.product.title)
+        .join(", "),
+      amount: orders[i].paymentIntent.amount,
+      date: new Date(orders[i].createdAt).toLocaleString(),
       action: (
         <>
           <Link className="fs-4 text-danger" to="/">

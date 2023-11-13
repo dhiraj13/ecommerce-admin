@@ -25,7 +25,7 @@ export const login = createAsyncThunk(
 );
 
 export const getOrders = createAsyncThunk(
-  "auth/get-orders",
+  "order/get-orders",
   async (_, thunkAPI) => {
     try {
       return await authService.getOrders();
