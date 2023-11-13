@@ -1,5 +1,19 @@
 import { Table } from "antd";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+
 const Orders = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOrders());
+  }, []);
+  const authState = useSelector((state) => state.auth);
+  const { orders } = authState;
+
   const columns = [
     {
       title: "SNo",
@@ -19,12 +33,20 @@ const Orders = () => {
     },
   ];
   const data1 = [];
-  for (let i = 0; i < 46; i++) {
+  for (let i = 0; i < orders.length; i++) {
     data1.push({
-      key: i,
-      name: `Edward King ${i}`,
-      product: 32,
-      status: `London, Park Lane no. ${i}`,
+      key: i + 1,
+      name: orders[i].title,
+      action: (
+        <>
+          <Link className="fs-4 text-danger" to="/">
+            <BiEdit />
+          </Link>
+          <Link className="ms-2 fs-4 text-danger" to="/">
+            <AiFillDelete />
+          </Link>
+        </>
+      ),
     });
   }
   return (
