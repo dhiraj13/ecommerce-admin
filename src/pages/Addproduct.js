@@ -30,12 +30,14 @@ const Addproduct = () => {
   const [color, setColor] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pcategory.pcategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
   const newProduct = useSelector((state) => state.product);
   const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+
   useEffect(() => {
     if (isSuccess && createdProduct) {
       toast.success("Product Added Successfully!");
@@ -44,6 +46,7 @@ const Addproduct = () => {
       toast.error("Something Went Wrong!");
     }
   }, [isSuccess, isError, isLoading]);
+
   const coloropt = [];
   colorState.forEach((i) => {
     coloropt.push({
@@ -89,7 +92,7 @@ const Addproduct = () => {
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
-        navigate("/admin/list-product");
+        navigate("/admin/product-list");
       }, 3000);
     },
   });
