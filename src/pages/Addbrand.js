@@ -60,6 +60,7 @@ const Addbrand = () => {
             onCh={formik.handleChange("title")}
             onBl={formik.handleBlur("title")}
             val={formik.values.title}
+            id="brand"
           />
           <div className="error">
             {formik.touched.title && formik.errors.title}
