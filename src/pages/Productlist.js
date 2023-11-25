@@ -1,18 +1,22 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 import { BiEdit } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/product/productSlice";
 
 const Productlist = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getProducts());
   }, []);
+
   const productState = useSelector((state) => state.product);
   const { products } = productState;
+
   const columns = [
     {
       title: "SNo",
@@ -70,7 +74,15 @@ const Productlist = () => {
   }
   return (
     <div>
-      <h3 className="mb-4 title">Products</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="title">Products</h3>
+        <button
+          className="btn btn-primary rounded-3"
+          onClick={() => navigate("/admin/product")}
+        >
+          Add
+        </button>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

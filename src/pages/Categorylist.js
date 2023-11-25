@@ -2,12 +2,14 @@ import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../features/pcategory/pcategorySlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
 const Categorylist = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getCategories());
   }, []);
@@ -48,7 +50,15 @@ const Categorylist = () => {
   }
   return (
     <div>
-      <h3 className="mb-4 title">Product Categories</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="title">Product Categories</h3>
+        <button
+          className="btn btn-primary rounded-3"
+          onClick={() => navigate("/admin/category")}
+        >
+          Add
+        </button>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

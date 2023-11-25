@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { createBrand } from "../features/brand/brandSlice";
 import { toast } from "react-toastify";
+import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Brand name is required"),
@@ -43,6 +44,12 @@ const Addbrand = () => {
 
   return (
     <div>
+      <button
+        className="bg-transparent border-0 mb-2"
+        onClick={() => navigate("/admin/brand-list")}
+      >
+        <IoMdArrowBack size={28} />
+      </button>
       <h3 className="mb-4 title">Add Brand</h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>

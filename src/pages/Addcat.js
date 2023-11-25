@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { createCategory } from "../features/bcategory/bcategorySlice";
+import { createCategory } from "../features/pcategory/pcategorySlice";
+import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Category name is required"),
@@ -15,7 +16,7 @@ const Addcat = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const newCategory = useSelector((state) => state.category);
+  const newCategory = useSelector((state) => state.pcategory);
   const { isSuccess, isError, isLoading, createdCategory } = newCategory;
 
   useEffect(() => {
@@ -43,6 +44,12 @@ const Addcat = () => {
 
   return (
     <div>
+      <button
+        className="bg-transparent border-0 mb-2"
+        onClick={() => navigate("/admin/category-list")}
+      >
+        <IoMdArrowBack size={28} />
+      </button>
       <h3 className="mb-4 title">Add Category</h3>
       <div>
         <form action="" onSubmit={formik.handleSubmit}>

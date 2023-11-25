@@ -2,15 +2,18 @@ import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrands } from "../features/brand/brandSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
 const Brandlist = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getBrands());
   }, []);
+
   const brandState = useSelector((state) => state.brand);
   const { brands } = brandState;
 
@@ -46,9 +49,18 @@ const Brandlist = () => {
       ),
     });
   }
+
   return (
     <div>
-      <h3 className="mb-4 title">Brands</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="title">Brands</h3>
+        <button
+          className="btn btn-primary rounded-3"
+          onClick={() => navigate("/admin/brand")}
+        >
+          Add
+        </button>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>

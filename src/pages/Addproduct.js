@@ -14,6 +14,7 @@ import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { createProducts } from "../features/product/productSlice";
 import { toast } from "react-toastify";
+import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -104,6 +105,12 @@ const Addproduct = () => {
 
   return (
     <div>
+      <button
+        className="bg-transparent border-0 mb-2"
+        onClick={() => navigate("/admin/product-list")}
+      >
+        <IoMdArrowBack size={28} />
+      </button>
       <h3 className="mb-4 title">Add Product</h3>
       <div>
         <form
