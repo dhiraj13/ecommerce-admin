@@ -2,15 +2,18 @@ import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getBlogs } from "../features/blog/blogSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 
 const BlogList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(getBlogs());
   }, []);
+
   const blogState = useSelector((state) => state.blog);
   const { blogs } = blogState;
 
@@ -52,7 +55,15 @@ const BlogList = () => {
   }
   return (
     <div>
-      <h3 className="mb-4 title">Blogs List</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h3 className="title">Blogs List</h3>
+        <button
+          className="btn btn-primary rounded-3"
+          onClick={() => navigate("/admin/blog")}
+        >
+          Add
+        </button>
+      </div>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
