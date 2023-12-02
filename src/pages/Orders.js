@@ -46,7 +46,7 @@ const Orders = () => {
       key: i + 1,
       name: orders[i].orderBy.firstname,
       product: orders[i].products
-        .map((product) => product.product.title)
+        .map((product) => product?.product?.title)
         .join(", "),
       amount: orders[i].paymentIntent.amount,
       date: new Date(orders[i].createdAt).toLocaleString(),

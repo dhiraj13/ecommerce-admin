@@ -12,7 +12,10 @@ import { getCategories } from "../features/pcategory/pcategorySlice";
 import { getColors } from "../features/color/colorSlice";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { createProducts } from "../features/product/productSlice";
+import {
+  createProducts,
+  resetProductState,
+} from "../features/product/productSlice";
 import { toast } from "react-toastify";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -93,6 +96,7 @@ const Addproduct = () => {
       formik.resetForm();
       setColor(null);
       setTimeout(() => {
+        dispatch(resetProductState());
         navigate("/admin/product-list");
       }, 3000);
     },

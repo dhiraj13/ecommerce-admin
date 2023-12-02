@@ -6,7 +6,7 @@ import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { createColor } from "../features/color/colorSlice";
+import { createColor, resetColorState } from "../features/color/colorSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Color name is required"),
@@ -37,6 +37,7 @@ const Addcolor = () => {
       dispatch(createColor(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetColorState());
         navigate("/admin/color-list");
       }, 3000);
     },

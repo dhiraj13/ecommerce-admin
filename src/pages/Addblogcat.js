@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { createBlogCategory } from "../features/bcategory/bcategorySlice";
+import {
+  createBlogCategory,
+  resetBcatState,
+} from "../features/bcategory/bcategorySlice";
 import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({
@@ -38,6 +41,7 @@ const Addblogcat = () => {
       dispatch(createBlogCategory(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetBcatState());
         navigate("/admin/blog-category-list");
       }, 3000);
     },
@@ -47,7 +51,7 @@ const Addblogcat = () => {
     <div>
       <button
         className="bg-transparent border-0 mb-2"
-        onClick={() => navigate("/admin/brand-list")}
+        onClick={() => navigate("/admin/blog-category-list")}
       >
         <IoMdArrowBack size={28} />
       </button>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { createBrand } from "../features/brand/brandSlice";
+import { createBrand, resetBrandState } from "../features/brand/brandSlice";
 import { toast } from "react-toastify";
 import { IoMdArrowBack } from "react-icons/io";
 
@@ -37,6 +37,7 @@ const Addbrand = () => {
       dispatch(createBrand(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetBrandState());
         navigate("/admin/brand-list");
       }, 3000);
     },

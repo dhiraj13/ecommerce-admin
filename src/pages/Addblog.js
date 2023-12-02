@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { IoMdArrowBack } from "react-icons/io";
 import { getCategories } from "../features/bcategory/bcategorySlice";
-import { createBlog } from "../features/blog/blogSlice";
+import { createBlog, resetBlogState } from "../features/blog/blogSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -67,6 +67,7 @@ const Addblog = () => {
       dispatch(createBlog(values));
       formik.resetForm();
       setTimeout(() => {
+        dispatch(resetBlogState());
         navigate("/admin/blog-list");
       }, 3000);
     },
