@@ -36,7 +36,7 @@ const Addbrand = () => {
     if (id !== undefined) {
       dispatch(getBrand(id));
     } else {
-      dispatch(resetBrandState);
+      dispatch(resetBrandState());
     }
   }, [id]);
 
@@ -73,15 +73,9 @@ const Addbrand = () => {
       if (id !== undefined) {
         dispatch(updateBrand({ id, ...values }));
         formik.resetForm();
-        // setTimeout(() => {
-        //   dispatch(resetBrandState());
-        // }, 3000);
       } else {
         dispatch(createBrand(values));
         formik.resetForm();
-        // setTimeout(() => {
-        //   dispatch(resetBrandState());
-        // }, 3000);
       }
     },
   });
