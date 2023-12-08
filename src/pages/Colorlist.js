@@ -1,12 +1,25 @@
 import { Table } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getColors } from "../features/color/colorSlice";
+import { deleteColor, getColors } from "../features/color/colorSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "../components/CustomModal";
 
 const Colorlist = () => {
+  const [open, setOpen] = useState(false);
+  const [colorId, setColorId] = useState("");
+
+  const showModal = (e) => {
+    setOpen(true);
+    setColorId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -38,16 +51,28 @@ const Colorlist = () => {
       name: colors[i].title,
       action: (
         <>
-          <Link className="fs-4 text-danger" to="/">
+          <Link
+            className="fs-4 text-danger"
+            to={`/admin/color/${colors[i]._id}`}
+          >
             <BiEdit />
           </Link>
-          <Link className="ms-2 fs-4 text-danger" to="/">
+          <button
+            className="ms-2 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(colors[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+
+  const handleDeleteBrand = async (id) => {
+    await dispatch(deleteColor(id));
+    await dispatch(getColors());
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -63,6 +88,12 @@ const Colorlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => handleDeleteBrand(colorId)}
+        title="Are you sure you want to delete this color?"
+      />
     </div>
   );
 };
