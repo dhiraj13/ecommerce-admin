@@ -1,6 +1,3 @@
-import axios from "axios";
-import { config } from "../../utils/axiosconfig";
-import { base_url } from "../../utils/base_url";
 import api from "../../api/api";
 
 const getBrands = async () => {

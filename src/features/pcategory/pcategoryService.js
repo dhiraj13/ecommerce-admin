@@ -1,46 +1,25 @@
-import axios from "axios";
-import { base_url } from "../../utils/base_url";
-import { config } from "../../utils/axiosconfig";
+import api from "../../api/api";
 
 const getProductCategories = async () => {
-  const response = await axios.get(`${base_url}product-category`);
-
-  return response.data;
+  return api.get("product-category").then((res) => res.data);
 };
 
 const createCategory = async (category) => {
-  const response = await axios.post(
-    `${base_url}product-category`,
-    category,
-    config
-  );
-
-  return response.data;
+  return api.post("product-category", category).then((res) => res.data);
 };
 
 const updateProductCategory = async (category) => {
-  const response = await axios.put(
-    `${base_url}product-category/${category.id}`,
-    category,
-    config
-  );
-
-  return response.data;
+  return api
+    .put(`product-category/${category.id}`, category)
+    .then((res) => res.data);
 };
 
 const getProductCategory = async (id) => {
-  const response = await axios.get(`${base_url}product-category/${id}`, config);
-
-  return response.data;
+  return api.get(`product-category/${id}`).then((res) => res.data);
 };
 
 const deleteProductCategory = async (id) => {
-  const response = await axios.delete(
-    `${base_url}product-category/${id}`,
-    config
-  );
-
-  return response.data;
+  return api.delete(`product-category/${id}`).then((res) => res.data);
 };
 
 const pcategoryService = {
