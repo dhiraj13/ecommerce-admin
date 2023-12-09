@@ -54,7 +54,7 @@ const Addcolor = () => {
       navigate("/admin/color-list");
     }
     if (isSuccess && updatedColor) {
-      toast.success("Brand Updated Successfully!");
+      toast.success("Color Updated Successfully!");
 
       dispatch(resetColorState());
       navigate("/admin/color-list");
