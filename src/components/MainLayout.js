@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import {
   AiOutlineBgColors,
@@ -14,8 +14,10 @@ import { FaBloggerB, FaClipboardList } from "react-icons/fa";
 import { ImBlog } from "react-icons/im";
 import { IoIosNotifications } from "react-icons/io";
 import { SiBrandfolder } from "react-icons/si";
-import { Layout, Menu, Button, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../features/auth/authSlice";
 
 const { Header, Sider, Content } = Layout;
 
@@ -25,6 +27,13 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignout = async () => {
+    await dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <Layout>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -206,13 +215,13 @@ const MainLayout = () => {
                 </Link>
               </li>
               <li>
-                <Link
+                <button
                   className="dropdown-item py-1 mb-1"
                   style={{ height: "auto", lineHeight: "20px" }}
-                  to="/"
+                  onClick={handleSignout}
                 >
                   Signout
-                </Link>
+                </button>
               </li>
             </div>
           </div>

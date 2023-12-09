@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import Resetpassword from "./pages/Resetpassword";
 import Forgotpassword from "./pages/Forgotpassword";
@@ -22,6 +27,7 @@ import Addbrand from "./pages/Addbrand";
 import Addproduct from "./pages/Addproduct";
 import Couponlist from "./pages/Couponlist";
 import Addcoupon from "./pages/Addcoupon";
+import Permission from "./components/Permission";
 
 function App() {
   return (
@@ -30,7 +36,14 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/reset-password" element={<Resetpassword />} />
         <Route path="/forgot-password" element={<Forgotpassword />} />
-        <Route path="/admin" element={<MainLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <Permission roles={["logged-in"]} noAccess={<Navigate to="/" />}>
+              <MainLayout />
+            </Permission>
+          }
+        >
           <Route index element={<Dashboard />} />
           <Route path="enquiries" element={<Enquiries />} />
           <Route path="blog-list" element={<BlogList />} />

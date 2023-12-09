@@ -37,7 +37,7 @@ const Login = () => {
     } else {
       navigate("");
     }
-  }, [user, isLoading, isError, isSuccess, message]);
+  }, [isSuccess, navigate]);
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "100vh" }}>
       <br />
