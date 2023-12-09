@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "@api/api";
 
 const getColors = async () => {
   return api.get("color").then((res) => res.data);

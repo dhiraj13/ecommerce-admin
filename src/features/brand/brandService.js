@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "@api/api";
 
 const getBrands = async () => {
   return api.get("brand").then((res) => res.data);

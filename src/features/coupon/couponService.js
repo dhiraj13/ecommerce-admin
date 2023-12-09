@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "@api/api";
 
 const getCoupons = async () => {
   return api.get("coupon").then((res) => res.data);

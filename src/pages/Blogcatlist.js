@@ -1,12 +1,26 @@
 import { Table } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "@features/bcategory/bcategorySlice";
+import {
+  deleteBlogCategory,
+  getCategories,
+} from "@features/bcategory/bcategorySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
+import CustomModal from "@components/CustomModal";
 
 const Blogcatlist = () => {
+  const [open, setOpen] = useState(false);
+  const [blogCatId, setBlogCatId] = useState("");
+  const showModal = (e) => {
+    setOpen(true);
+    setBlogCatId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -40,16 +54,28 @@ const Blogcatlist = () => {
       name: bcategories[i].title,
       action: (
         <>
-          <Link className="fs-4 text-danger" to="/">
+          <Link
+            className="fs-4 text-danger"
+            to={`/admin/blog-category/${bcategories[i]._id}`}
+          >
             <BiEdit />
           </Link>
-          <Link className="ms-2 fs-4 text-danger" to="/">
+          <button
+            className="ms-2 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(bcategories[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+
+  const handleDeleteBlogCat = async (id) => {
+    await dispatch(deleteBlogCategory(id));
+    await dispatch(getCategories());
+    setOpen(false);
+  };
 
   return (
     <div>
@@ -65,6 +91,12 @@ const Blogcatlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => handleDeleteBlogCat(blogCatId)}
+        title="Are you sure you want to delete this Blog Category?"
+      />
     </div>
   );
 };

@@ -23,6 +23,39 @@ export const createBlogCategory = createAsyncThunk(
   }
 );
 
+export const updateBlogCategory = createAsyncThunk(
+  "bcategory/update-category",
+  async (catData, thunkAPI) => {
+    try {
+      return await bcategoryService.updateBlogCategory(catData);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getBlogCategory = createAsyncThunk(
+  "bcategory/get-category",
+  async (id, thunkAPI) => {
+    try {
+      return await bcategoryService.getBlogCategory(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const deleteBlogCategory = createAsyncThunk(
+  "bcategory/delete-category",
+  async (id, thunkAPI) => {
+    try {
+      return await bcategoryService.deleteBlogCategory(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const resetBcatState = createAction("Reset_all_blog_cat");
 
 const initialState = {
@@ -65,6 +98,36 @@ export const bcategorySlice = createSlice({
         state.createdBlogCategory = action.payload;
       })
       .addCase(createBlogCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getBlogCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getBlogCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.blogCatName = action.payload.title;
+      })
+      .addCase(getBlogCategory.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateBlogCategory.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateBlogCategory.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedBlogCategory = action.payload;
+      })
+      .addCase(updateBlogCategory.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

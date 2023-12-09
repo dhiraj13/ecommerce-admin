@@ -1,4 +1,4 @@
-import api from "../../api/api";
+import api from "@api/api";
 
 const getProductCategories = async () => {
   return api.get("product-category").then((res) => res.data);
