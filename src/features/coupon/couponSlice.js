@@ -10,6 +10,7 @@ export const getCoupons = createAsyncThunk(
       return thunkAPI.rejectWithValue(error);
     }
   }
+  // couponService.getCoupons
 );
 
 export const createCoupon = createAsyncThunk(

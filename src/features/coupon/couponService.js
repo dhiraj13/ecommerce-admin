@@ -1,39 +1,23 @@
-import axios from "axios";
-import { config } from "../../utils/axiosconfig";
-import { base_url } from "../../utils/base_url";
+import api from "../../api/api";
 
 const getCoupons = async () => {
-  const response = await axios.get(`${base_url}coupon`, config);
-
-  return response.data;
+  return api.get("coupon").then((res) => res.data);
 };
 
 const createCoupon = async (coupon) => {
-  const response = await axios.post(`${base_url}coupon`, coupon, config);
-
-  return response.data;
+  return api.post("coupon", coupon).then((res) => res.data);
 };
 
 const updateCoupon = async (coupon) => {
-  const response = await axios.put(
-    `${base_url}coupon/${coupon.id}`,
-    coupon,
-    config
-  );
-
-  return response.data;
+  return api.put(`coupon/${coupon.id}`, coupon).then((res) => res.data);
 };
 
 const getCoupon = async (id) => {
-  const response = await axios.get(`${base_url}coupon/${id}`, config);
-
-  return response.data;
+  return api.get(`coupon/${id}`).then((res) => res.data);
 };
 
 const deleteCoupon = async (id) => {
-  const response = await axios.delete(`${base_url}coupon/${id}`, config);
-
-  return response.data;
+  return api.delete(`coupon/${id}`).then((res) => res.data);
 };
 
 const couponService = {
