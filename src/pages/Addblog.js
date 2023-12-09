@@ -1,19 +1,19 @@
 import * as Yup from "yup";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ReactQuill from "react-quill";
 import Dropzone from "react-dropzone";
 import "react-quill/dist/quill.snow.css";
 import { Stepper } from "react-form-stepper";
 
-import CustomInput from "../components/CustomInput";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
+import CustomInput from "@components/CustomInput";
+import { delImg, uploadImg } from "@features/upload/uploadSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { IoMdArrowBack } from "react-icons/io";
-import { getCategories } from "../features/bcategory/bcategorySlice";
-import { createBlog, resetBlogState } from "../features/blog/blogSlice";
+import { getCategories } from "@features/bcategory/bcategorySlice";
+import { createBlog, resetBlogState } from "@features/blog/blogSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is required"),

@@ -2,20 +2,20 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
-import { getBrands } from "../features/brand/brandSlice";
-import { getCategories } from "../features/pcategory/pcategorySlice";
-import { getColors } from "../features/color/colorSlice";
+import { getBrands } from "@features/brand/brandSlice";
+import { getCategories } from "@features/pcategory/pcategorySlice";
+import { getColors } from "@features/color/colorSlice";
 import Dropzone from "react-dropzone";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
+import { delImg, uploadImg } from "@features/upload/uploadSlice";
 import {
   createProducts,
   resetProductState,
-} from "../features/product/productSlice";
+} from "@features/product/productSlice";
 import { toast } from "react-toastify";
 import { IoMdArrowBack } from "react-icons/io";
 

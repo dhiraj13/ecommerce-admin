@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders } from "../features/auth/authSlice";
+import { getOrders } from "@features/auth/authSlice";
 import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";

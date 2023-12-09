@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../features/customers/customerSlice";
+import { getUsers } from "@features/customers/customerSlice";
 
 const Customers = () => {
   const dispatch = useDispatch();

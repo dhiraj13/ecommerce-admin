@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import {
   AiOutlineBgColors,
@@ -16,8 +16,8 @@ import { IoIosNotifications } from "react-icons/io";
 import { SiBrandfolder } from "react-icons/si";
 import { Layout, Menu, theme } from "antd";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "@features/auth/authSlice";
 
 const { Header, Sider, Content } = Layout;
 

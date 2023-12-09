@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -9,7 +9,7 @@ import {
   getCoupon,
   resetCouponState,
   updateCoupon,
-} from "../features/coupon/couponSlice";
+} from "@features/coupon/couponSlice";
 import { toast } from "react-toastify";
 import { IoMdArrowBack } from "react-icons/io";
 import dayjs from "dayjs";

@@ -1,11 +1,11 @@
 import { Table } from "antd";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteCoupon, getCoupons } from "../features/coupon/couponSlice";
+import { deleteCoupon, getCoupons } from "@features/coupon/couponSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "@components/CustomModal";
 
 const Couponlist = () => {
   const [open, setOpen] = useState(false);

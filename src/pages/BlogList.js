@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getBlogs } from "../features/blog/blogSlice";
+import { getBlogs } from "@features/blog/blogSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";

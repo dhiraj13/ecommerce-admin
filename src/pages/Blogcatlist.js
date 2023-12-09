@@ -1,7 +1,7 @@
 import { Table } from "antd";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../features/bcategory/bcategorySlice";
+import { getCategories } from "@features/bcategory/bcategorySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";

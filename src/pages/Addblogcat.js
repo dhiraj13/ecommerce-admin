@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { useFormik } from "formik";
 import {
   createBlogCategory,
   resetBcatState,
-} from "../features/bcategory/bcategorySlice";
+} from "@features/bcategory/bcategorySlice";
 import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({

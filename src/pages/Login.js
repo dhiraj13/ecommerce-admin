@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../features/auth/authSlice";
+import { login } from "@features/auth/authSlice";
 import { useEffect } from "react";
 
 const Login = () => {
@@ -27,9 +27,7 @@ const Login = () => {
     },
   });
 
-  const { user, isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.auth
-  );
+  const { isSuccess, message } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {

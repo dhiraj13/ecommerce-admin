@@ -4,7 +4,7 @@ import { BiEdit } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../features/product/productSlice";
+import { getProducts } from "@features/product/productSlice";
 
 const Productlist = () => {
   const navigate = useNavigate();

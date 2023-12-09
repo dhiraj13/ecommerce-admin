@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoMdArrowBack } from "react-icons/io";
 import * as Yup from "yup";
@@ -11,7 +11,7 @@ import {
   getColor,
   resetColorState,
   updateColor,
-} from "../features/color/colorSlice";
+} from "@features/color/colorSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Color name is required"),

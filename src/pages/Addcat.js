@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CustomInput from "../components/CustomInput";
+import CustomInput from "@components/CustomInput";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import {
   getProductCategory,
   resetProductCategoryState,
   updateProductCategory,
-} from "../features/pcategory/pcategorySlice";
+} from "@features/pcategory/pcategorySlice";
 import { IoMdArrowBack } from "react-icons/io";
 
 let schema = Yup.object().shape({

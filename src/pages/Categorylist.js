@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteProductCategory,
   getCategories,
-} from "../features/pcategory/pcategorySlice";
+} from "@features/pcategory/pcategorySlice";
 import { Link, useNavigate } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
-import CustomModal from "../components/CustomModal";
+import CustomModal from "@components/CustomModal";
 
 const Categorylist = () => {
   const [open, setOpen] = useState(false);
