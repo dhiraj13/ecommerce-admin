@@ -1,17 +1,11 @@
-import axios from "axios";
-import { base_url } from "../../utils/base_url";
-import { config } from "../../utils/axiosconfig";
+import api from "../../api/api";
 
 const getBlogCategories = async () => {
-  const response = await axios.get(`${base_url}blog-category`);
-
-  return response.data;
+  return api.get("blog-category").then((res) => res.data);
 };
 
 const createBlogCategory = async (bcat) => {
-  const response = await axios.post(`${base_url}blog-category`, bcat, config);
-
-  return response.data;
+  return api.post("blog-category", bcat).then((res) => res.data);
 };
 
 const bcategoryService = {
