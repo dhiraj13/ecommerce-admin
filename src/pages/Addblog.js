@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import Dropzone from "react-dropzone";
 import "react-quill/dist/quill.snow.css";
@@ -9,11 +9,16 @@ import CustomInput from "@components/CustomInput";
 import { delImg, uploadImg } from "@features/upload/uploadSlice";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { IoMdArrowBack } from "react-icons/io";
 import { getCategories } from "@features/bcategory/bcategorySlice";
-import { createBlog, resetBlogState } from "@features/blog/blogSlice";
+import {
+  createBlog,
+  getBlog,
+  resetBlogState,
+  updateBlog,
+} from "@features/blog/blogSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -24,15 +29,68 @@ let schema = Yup.object().shape({
 const Addblog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [images, setImages] = useState([]);
 
   const imgState = useSelector((state) => state.upload.images);
   const bCatState = useSelector((state) => state.bcategory.bcategories);
   const blogState = useSelector((state) => state.blog);
-  const { isSuccess, isError, isLoading, createdBlog } = blogState;
+  const { isSuccess, isError, isLoading, createdBlog, blog, updatedBlog } =
+    blogState;
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getBlog(id));
+    } else {
+      dispatch(resetBlogState());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (imgState) {
+      const img = [];
+      imgState.forEach((i) => {
+        img.push({
+          public_id: i.public_id,
+          url: i.url,
+        });
+      });
+      formik.setFieldValue("images", img);
+      setImages(imgState);
+    }
+  }, [imgState]);
+
+  useEffect(() => {
+    if (blog) {
+      formik.setFieldValue("title", blog?.title);
+      formik.setFieldValue("description", blog?.description);
+      formik.setFieldValue("category", blog?.category);
+      const img = [];
+      if (blog.images) {
+        blog.images.forEach((i) => {
+          img.push({
+            public_id: i.public_id,
+            url: i.url,
+          });
+        });
+      }
+      formik.setFieldValue("images", img);
+      setImages(img);
+    }
+  }, [blog]);
 
   useEffect(() => {
     if (isSuccess && createdBlog) {
-      toast.success("Product Added Successfully!");
+      toast.success("Blog Added Successfully!");
+
+      dispatch(resetBlogState());
+      navigate("/admin/blog-list");
+    }
+    if (isSuccess && updatedBlog) {
+      toast.success("Blog Updated Successfully!");
+
+      dispatch(resetBlogState());
+      navigate("/admin/blog-list");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
@@ -43,18 +101,6 @@ const Addblog = () => {
     dispatch(getCategories());
   }, [dispatch]);
 
-  const img = [];
-  imgState.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
-
-  useEffect(() => {
-    formik.values.images = img;
-  }, [img]);
-
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -64,12 +110,13 @@ const Addblog = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createBlog(values));
-      formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetBlogState());
-        navigate("/admin/blog-list");
-      }, 3000);
+      if (id !== undefined) {
+        dispatch(updateBlog({ id, ...values }));
+        formik.resetForm();
+      } else {
+        dispatch(createBlog(values));
+        formik.resetForm();
+      }
     },
   });
 
@@ -81,7 +128,7 @@ const Addblog = () => {
       >
         <IoMdArrowBack size={28} />
       </button>
-      <h3 className="mb-4 title">Add Blog</h3>
+      <h3 className="mb-4 title">{id !== undefined ? "Edit" : "Add"} Blog</h3>
       <Stepper
         steps={[
           { label: "Add Blog Details" },
@@ -150,7 +197,7 @@ const Addblog = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap mt-3 gap-3">
-            {imgState?.map((i, j) => (
+            {images?.map((i, j) => (
               <div className="position-relative" key={j}>
                 <button
                   type="button"
@@ -166,7 +213,7 @@ const Addblog = () => {
             className="btn btn-success border-0 rounded-3 my-3"
             type="submit"
           >
-            Add Blog
+            {id !== undefined ? "Edit" : "Add"} Blog
           </button>
         </form>
       </div>

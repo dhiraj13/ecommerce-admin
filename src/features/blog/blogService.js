@@ -1,22 +1,31 @@
-import axios from "axios";
-import { base_url } from "../../utils/base_url";
-import { config } from "../../utils/axiosconfig";
+import api from "@api/api";
 
 const getBlogs = async () => {
-  const response = await axios.get(`${base_url}blog`);
-
-  return response.data;
+  return api.get("blog").then((res) => res.data);
 };
 
 const createBlog = async (blog) => {
-  const response = await axios.post(`${base_url}blog`, blog, config);
+  return api.post("blog", blog).then((res) => res.data);
+};
 
-  return response.data;
+const updateBlog = async (blog) => {
+  return api.put(`blog/${blog.id}`, blog).then((res) => res.data);
+};
+
+const getBlog = async (id) => {
+  return api.get(`blog/${id}`).then((res) => res.data);
+};
+
+const deleteBlog = async (id) => {
+  return api.delete(`blog/${id}`).then((res) => res.data);
 };
 
 const blogService = {
   getBlogs,
   createBlog,
+  updateBlog,
+  getBlog,
+  deleteBlog,
 };
 
 export default blogService;

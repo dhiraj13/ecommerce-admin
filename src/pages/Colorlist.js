@@ -68,7 +68,7 @@ const Colorlist = () => {
     });
   }
 
-  const handleDeleteBrand = async (id) => {
+  const handleDeleteColor = async (id) => {
     await dispatch(deleteColor(id));
     await dispatch(getColors());
     setOpen(false);
@@ -91,7 +91,7 @@ const Colorlist = () => {
       <CustomModal
         hideModal={hideModal}
         open={open}
-        performAction={() => handleDeleteBrand(colorId)}
+        performAction={() => handleDeleteColor(colorId)}
         title="Are you sure you want to delete this color?"
       />
     </div>
