@@ -83,10 +83,10 @@ const Addblogcat = () => {
   return (
     <div>
       <button
-        className="bg-transparent border-0 mb-2"
+        className="bg-transparent border-0 fs-6 mb-2 d-flex align-items-center gap-1"
         onClick={() => navigate("/admin/blog-category-list")}
       >
-        <IoMdArrowBack size={28} />
+        <IoMdArrowBack size={28} /> Go Back
       </button>
       <h3 className="mb-4 title">
         {id !== undefined ? "Edit" : "Add"} Blog Category
