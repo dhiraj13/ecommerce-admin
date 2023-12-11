@@ -29,6 +29,7 @@ import Couponlist from "@pages/Couponlist";
 import Addcoupon from "@pages/Addcoupon";
 import Permission from "@components/Permission";
 import ViewEnquiry from "@pages/ViewEnquiry";
+import ViewOrder from "@pages/ViewOrder";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route path="blog-category/:id" element={<Addblogcat />} />
           <Route path="blog-category-list" element={<Blogcatlist />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="orders/:id" element={<ViewOrder />} />
           <Route path="customers" element={<Customers />} />
           <Route path="color" element={<Addcolor />} />
           <Route path="color/:id" element={<Addcolor />} />
