@@ -1,21 +1,38 @@
 import { Table } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BiEdit } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "@features/product/productSlice";
+import { deleteProduct, getProducts } from "@features/product/productSlice";
+import { getColors } from "@features/color/colorSlice";
+import CustomModal from "@components/CustomModal";
 
 const Productlist = () => {
+  const [open, setOpen] = useState(false);
+  const [productId, setProductId] = useState("");
+
+  const showModal = (e) => {
+    setOpen(true);
+    setProductId(e);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getColors());
   }, []);
 
   const productState = useSelector((state) => state.product);
   const { products } = productState;
+  const colorState = useSelector((state) => state.color);
+  const { colors } = colorState;
 
   const columns = [
     {
@@ -62,16 +79,29 @@ const Productlist = () => {
       price: `$ ${products[i].price}`,
       action: (
         <>
-          <Link className="fs-4 text-danger" to="/">
+          <Link
+            className="fs-4 text-danger"
+            to={`/admin/product/${products[i]._id}`}
+          >
             <BiEdit />
           </Link>
-          <Link className="ms-2 fs-4 text-danger" to="/">
+          <button
+            className="ms-2 fs-4 text-danger bg-transparent border-0"
+            onClick={() => showModal(products[i]._id)}
+          >
             <AiFillDelete />
-          </Link>
+          </button>
         </>
       ),
     });
   }
+
+  const handleDeleteProduct = async (id) => {
+    await dispatch(deleteProduct(id));
+    await dispatch(getProducts());
+    setOpen(false);
+  };
+
   return (
     <div>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -86,6 +116,12 @@ const Productlist = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModal
+        hideModal={hideModal}
+        open={open}
+        performAction={() => handleDeleteProduct(productId)}
+        title="Are you sure you want to delete this product?"
+      />
     </div>
   );
 };

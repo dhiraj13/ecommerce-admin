@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CustomInput from "@components/CustomInput";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -9,15 +9,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { Select } from "antd";
 import { getBrands } from "@features/brand/brandSlice";
 import { getCategories } from "@features/pcategory/pcategorySlice";
-import { getColors } from "@features/color/colorSlice";
+import {
+  createProduct,
+  getProduct,
+  resetProductState,
+  updateProduct,
+} from "@features/product/productSlice";
 import Dropzone from "react-dropzone";
 import { delImg, uploadImg } from "@features/upload/uploadSlice";
-import {
-  createProducts,
-  resetProductState,
-} from "@features/product/productSlice";
 import { toast } from "react-toastify";
 import { IoMdArrowBack } from "react-icons/io";
+import { getColors } from "@features/color/colorSlice";
 
 let schema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
@@ -31,20 +33,88 @@ let schema = Yup.object().shape({
 });
 
 const Addproduct = () => {
-  const [color, setColor] = useState([]);
+  const [color, setColor] = useState([
+    // "6551a5aba19eb165dcba9369",
+    // "6551a5baa19eb165dcba9375",
+  ]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [images, setImages] = useState([]);
 
   const brandState = useSelector((state) => state.brand.brands);
   const catState = useSelector((state) => state.pcategory.pcategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
   const newProduct = useSelector((state) => state.product);
-  const { isSuccess, isError, isLoading, createdProduct } = newProduct;
+  const {
+    isSuccess,
+    isError,
+    isLoading,
+    createdProduct,
+    productDetail,
+    updatedProduct,
+  } = newProduct;
+
+  useEffect(() => {
+    dispatch(getBrands());
+    dispatch(getCategories());
+    dispatch(getColors());
+    if (id !== undefined) {
+      dispatch(getProduct(id));
+    } else {
+      dispatch(resetProductState());
+    }
+
+    return () => {
+      dispatch(resetProductState());
+    };
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (imgState) {
+      const img = [];
+      imgState.forEach((i) => {
+        img.push({
+          public_id: i.public_id,
+          url: i.url,
+        });
+      });
+      formik.setFieldValue("images", img);
+      setImages(imgState);
+    }
+  }, [imgState]);
+
+  useEffect(() => {
+    if (productDetail) {
+      formik.setValues(productDetail);
+      const img = [];
+      if (productDetail.images) {
+        productDetail.images.forEach((i) => {
+          img.push({
+            public_id: i.public_id,
+            url: i.url,
+          });
+        });
+      }
+      formik.setFieldValue("images", img);
+      setImages(img);
+      setColor(productDetail.color);
+    }
+  }, [productDetail]);
 
   useEffect(() => {
     if (isSuccess && createdProduct) {
       toast.success("Product Added Successfully!");
+
+      dispatch(resetProductState());
+      navigate("/admin/product-list");
+    }
+    if (isSuccess && updatedProduct) {
+      toast.success("Product Updated Successfully!");
+
+      dispatch(resetProductState());
+      navigate("/admin/product-list");
     }
     if (isError) {
       toast.error("Something Went Wrong!");
@@ -60,23 +130,8 @@ const Addproduct = () => {
   });
 
   useEffect(() => {
-    dispatch(getBrands());
-    dispatch(getCategories());
-    dispatch(getColors());
-  }, [dispatch]);
-
-  const img = [];
-  imgState.forEach((i) => {
-    img.push({
-      public_id: i.public_id,
-      url: i.url,
-    });
-  });
-
-  useEffect(() => {
-    formik.values.color = color ?? " ";
-    formik.values.images = img;
-  }, [color, img]);
+    formik.values.color = color ?? [];
+  }, [color]);
 
   const formik = useFormik({
     initialValues: {
@@ -86,25 +141,24 @@ const Addproduct = () => {
       brand: "",
       category: "",
       tags: "",
-      color: "",
+      color: [],
       quantity: "",
       images: [],
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(createProducts(values));
-      formik.resetForm();
-      setColor(null);
-      setTimeout(() => {
-        dispatch(resetProductState());
-        navigate("/admin/product-list");
-      }, 3000);
+      if (id !== undefined) {
+        dispatch(updateProduct({ id, ...values }));
+        formik.resetForm();
+      } else {
+        dispatch(createProduct(values));
+        formik.resetForm();
+      }
     },
   });
 
-  const handleColors = (e) => {
-    setColor(e);
-    console.log(color);
+  const handleColors = (value) => {
+    setColor(value);
   };
 
   return (
@@ -211,8 +265,12 @@ const Addproduct = () => {
             allowClear
             className="w-100"
             placeholder="Select colors"
-            defaultValue={color}
-            onChange={(i) => handleColors(i)}
+            // defaultValue={color}
+            name="color"
+            value={formik.values.color}
+            onChange={(value) => formik.setFieldValue("color", value)}
+            onBlur={formik.handleBlur}
+            onSelect={formik.handleChange}
             options={coloropt}
           />
           <div className="error">
@@ -246,7 +304,7 @@ const Addproduct = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap gap-3">
-            {imgState?.map((i, j) => (
+            {images?.map((i, j) => (
               <div className="position-relative" key={j}>
                 <button
                   type="button"
@@ -254,7 +312,13 @@ const Addproduct = () => {
                   className="btn-close position-absolute"
                   style={{ top: "10px", right: "10px" }}
                 ></button>
-                <img src={i.url} alt="" width={200} height={200} />
+                <img
+                  className="w-100 object-fit-cover"
+                  src={i.url}
+                  alt=""
+                  width={200}
+                  height={200}
+                />
               </div>
             ))}
           </div>
