@@ -44,7 +44,7 @@ const Addblog = () => {
     } else {
       dispatch(resetBlogState());
     }
-  }, []);
+  }, [id, dispatch]);
 
   useEffect(() => {
     if (imgState) {
