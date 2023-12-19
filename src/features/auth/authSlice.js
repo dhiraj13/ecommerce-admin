@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import authService from "./authService";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
+import authService from "./authService"
 
 const getUserFromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
-  : null;
+  : null
 const initialState = {
   user: getUserFromLocalStorage,
   orders: [],
@@ -12,53 +12,53 @@ const initialState = {
   isLoading: false,
   isSuccess: false,
   message: "",
-};
+}
 
 export const login = createAsyncThunk(
   "auth/admin-login",
   async (user, thunkAPI) => {
     try {
-      return await authService.login(user);
+      return await authService.login(user)
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error)
     }
   }
-);
+)
 
 export const logout = createAsyncThunk(
   "auth/admin-logout",
   async (_, thunkAPI) => {
     try {
-      return await authService.logout();
+      return await authService.logout()
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error)
     }
   }
-);
+)
 
 export const getOrders = createAsyncThunk(
   "order/get-orders",
   async (_, thunkAPI) => {
     try {
-      return await authService.getOrders();
+      return await authService.getOrders()
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error)
     }
   }
-);
+)
 
 export const getOrder = createAsyncThunk(
   "order/get-order",
   async (id, thunkAPI) => {
     try {
-      return await authService.getOrder(id);
+      return await authService.getOrder(id)
     } catch (error) {
-      return thunkAPI.rejectWithValue(error);
+      return thunkAPI.rejectWithValue(error)
     }
   }
-);
+)
 
-export const resetAuthState = createAction("Reset_all_auth");
+export const resetAuthState = createAction("Reset_all_auth")
 
 export const authSlice = createSlice({
   name: "auth",
@@ -67,55 +67,56 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = true
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.user = action.payload;
+        state.isLoading = false
+        state.isSuccess = true
+        state.user = action.payload
+        localStorage.setItem("user", JSON.stringify(action.payload))
       })
       .addCase(login.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
       })
       .addCase(logout.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isError = false;
-        state.isSuccess = false;
-        state.user = action.payload;
+        state.isLoading = false
+        state.isError = false
+        state.isSuccess = false
+        state.user = action.payload
       })
       .addCase(getOrders.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = true
       })
       .addCase(getOrders.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.orders = action.payload || [];
+        state.isLoading = false
+        state.isSuccess = true
+        state.orders = action.payload || []
       })
       .addCase(getOrders.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
       })
       .addCase(getOrder.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading = true
       })
       .addCase(getOrder.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.order = action.payload;
+        state.isLoading = false
+        state.isSuccess = true
+        state.order = action.payload
       })
       .addCase(getOrder.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.isSuccess = false;
-        state.message = action.error;
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
       })
-      .addCase(resetAuthState, () => initialState);
+      .addCase(resetAuthState, () => initialState)
   },
-});
+})
 
-export default authSlice.reducer;
+export default authSlice.reducer

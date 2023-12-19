@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
-import { checkPermission } from "./checkPermission";
+import { checkPermission } from "./checkPermission"
 
 const Permission = (props) => {
   const {
@@ -10,11 +10,11 @@ const Permission = (props) => {
     roles = [],
     type = "one-of",
     debug = false,
-  } = props;
+  } = props
 
-  const user = localStorage.getItem("user");
-  const userObject = JSON.parse(user);
-  const token = userObject ? userObject.token : "";
+  const user = localStorage.getItem("user")
+  const userObject = user ? JSON.parse(user) : null
+  const token = userObject ? userObject.token : ""
 
   const [hasAccess, setHasAccess] = useState(
     token
@@ -24,34 +24,34 @@ const Permission = (props) => {
           debug,
         })
       : false
-  );
+  )
 
   useEffect(() => {
     if (!token) {
-      setHasAccess(false);
+      setHasAccess(false)
     } else {
       // debugger;
       const doesHaveAccess = checkPermission(token, roles, {
         type,
         entityOwnerEmail,
         debug,
-      });
-      setHasAccess(doesHaveAccess);
+      })
+      setHasAccess(doesHaveAccess)
     }
-  }, [token, entityOwnerEmail, roles, type]);
+  }, [token, entityOwnerEmail, roles, type])
 
   const renderNoAccess = () => {
     if (typeof noAccess === "function") {
       return noAccess({
         token,
         hasAccess,
-      });
+      })
     }
-    return noAccess || null;
-  };
+    return noAccess || null
+  }
 
   // Ensure that the component always returns a valid JSX element or null
-  return hasAccess ? children : renderNoAccess() || null;
-};
+  return hasAccess ? children : renderNoAccess() || null
+}
 
-export default Permission;
+export default Permission
