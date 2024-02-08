@@ -25,6 +25,28 @@ export const login = createAsyncThunk(
   }
 )
 
+export const getMonthlyOrders = createAsyncThunk(
+  "auth/get-monthly-orders",
+  async (_, thunkAPI) => {
+    try {
+      return await authService.getMonthlyOrders()
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+export const getYearlyOrders = createAsyncThunk(
+  "auth/get-yearly-orders",
+  async (_, thunkAPI) => {
+    try {
+      return await authService.getYearlyStats()
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
 export const logout = createAsyncThunk(
   "auth/admin-logout",
   async (_, thunkAPI) => {
@@ -110,6 +132,34 @@ export const authSlice = createSlice({
         state.order = action.payload
       })
       .addCase(getOrder.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
+      })
+      .addCase(getMonthlyOrders.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getMonthlyOrders.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.monthlyOrders = action.payload
+      })
+      .addCase(getMonthlyOrders.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
+      })
+      .addCase(getYearlyOrders.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getYearlyOrders.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.yearlyOrders = action.payload
+      })
+      .addCase(getYearlyOrders.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false
