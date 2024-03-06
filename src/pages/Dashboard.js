@@ -1,21 +1,26 @@
-import { BsArrowDownRight } from "react-icons/bs"
 import { Column } from "@ant-design/plots"
 import { Table } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
-import { getMonthlyOrders, getYearlyOrders } from "@features/auth/authSlice"
+import {
+  getMonthlyOrders,
+  getOrders,
+  getYearlyOrders,
+} from "@features/auth/authSlice"
 import { If, Then } from "react-if"
 
 const Dashboard = () => {
   const [ordersMonthly, setOrdersMonthly] = useState([])
   const [ordersMonthlySales, setOrdersMonthlySales] = useState([])
+  const [orderData, setOrderData] = useState([])
   const dispatch = useDispatch()
   const authState = useSelector((state) => state.auth)
-  const { monthlyOrders, yearlyOrders } = authState
+  const { monthlyOrders, orders, yearlyOrders } = authState
 
   useEffect(() => {
     dispatch(getMonthlyOrders())
     dispatch(getYearlyOrders())
+    dispatch(getOrders())
   }, [dispatch])
 
   useEffect(() => {
@@ -51,7 +56,20 @@ const Dashboard = () => {
     }
     setOrdersMonthly(data)
     setOrdersMonthlySales(monthlyOrderCount)
-  }, [monthlyOrders])
+
+    const data1 = []
+    for (let i = 0; i < orders?.length; i++) {
+      data1.push({
+        key: i,
+        name: orders?.[i]?.user?.firstname + orders?.[i]?.user?.lastname,
+        product: orders?.[i]?.orderItems?.length,
+        price: orders?.[i]?.totalPrice,
+        dprice: orders?.[i]?.totalPriceAfterDiscount,
+        status: orders?.[i]?.orderStatus,
+      })
+    }
+    setOrderData(data1)
+  }, [monthlyOrders, yearlyOrders])
 
   const config = {
     data: ordersMonthly,
@@ -125,20 +143,19 @@ const Dashboard = () => {
       dataIndex: "product",
     },
     {
+      title: "Total Price",
+      dataIndex: "price",
+    },
+    {
+      title: "Total Price After Discount",
+      dataIndex: "dprice",
+    },
+    {
       title: "Status",
       dataIndex: "status",
     },
   ]
 
-  const data1 = []
-  for (let i = 0; i < 46; i++) {
-    data1.push({
-      key: i,
-      name: `Edward King ${i}`,
-      product: 32,
-      status: `London, Park Lane no. ${i}`,
-    })
-  }
   return (
     <div>
       <h3 className="mb-4 title">Dashboard</h3>
@@ -187,7 +204,7 @@ const Dashboard = () => {
       <div className="mt-4">
         <h3 className="mb-5 title">Recent Orders</h3>
         <div>
-          <Table columns={columns} dataSource={ordersMonthly} />
+          <Table columns={columns} dataSource={orderData} />
         </div>
       </div>
     </div>

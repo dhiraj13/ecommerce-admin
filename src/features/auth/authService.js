@@ -13,7 +13,7 @@ const getOrders = () => {
 }
 
 const getOrder = (id) => {
-  return api.get(`user/get-order-by-user-id/${id}`).then((res) => res.data)
+  return api.get(`user/get-order/${id}`).then((res) => res.data)
 }
 
 const getMonthlyOrders = () => {
