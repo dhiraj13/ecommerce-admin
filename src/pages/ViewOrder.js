@@ -11,6 +11,7 @@ const ViewOrder = () => {
   const { id } = useParams()
 
   const { order } = useSelector((state) => state.auth)
+  console.log({ order })
 
   useEffect(() => {
     dispatch(getOrder(id))
@@ -42,24 +43,19 @@ const ViewOrder = () => {
       dataIndex: "color",
     },
     {
-      title: "Date",
-      dataIndex: "date",
-    },
-    {
       title: "Action",
       dataIndex: "action",
     },
   ]
   const data1 = []
-  for (let i = 0; i < order?.products?.length; i++) {
+  for (let i = 0; i < order?.orderItems?.length; i++) {
     data1.push({
       key: i + 1,
-      name: order?.products?.[i].product?.title,
-      brand: order?.products?.[i].product?.brand,
-      count: order?.products?.[i].product?.count,
-      amount: order?.products?.[i].product?.price,
-      color: order?.products?.[i].product?.color,
-      date: order?.products?.[i].product?.createdAt,
+      name: order?.orderItems?.[i]?.product?.title,
+      brand: order?.orderItems?.[i]?.product?.brand,
+      count: order?.orderItems?.[i]?.quantity,
+      amount: order?.orderItems?.[i]?.price,
+      color: order?.orderItems?.[i]?.color?.title,
       action: (
         <>
           <Link className="fs-4 text-danger" to="/">

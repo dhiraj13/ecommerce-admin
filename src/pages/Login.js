@@ -1,21 +1,21 @@
-import { Link, useNavigate } from "react-router-dom";
-import CustomInput from "@components/CustomInput";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "@features/auth/authSlice";
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import CustomInput from "@components/CustomInput"
+import { useFormik } from "formik"
+import * as Yup from "yup"
+import { useDispatch, useSelector } from "react-redux"
+import { login } from "@features/auth/authSlice"
+import { useEffect } from "react"
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   let schema = Yup.object().shape({
     email: Yup.string()
       .email("Email Should be Valid")
       .required("Email is Required"),
     password: Yup.string().required("Password is Required"),
-  });
+  })
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,19 +23,19 @@ const Login = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(login(values));
+      dispatch(login(values))
     },
-  });
+  })
 
-  const { isSuccess, message } = useSelector((state) => state.auth);
+  const { isSuccess, message } = useSelector((state) => state.auth)
 
   useEffect(() => {
     if (isSuccess) {
-      navigate("admin");
+      navigate("admin")
     } else {
-      navigate("");
+      navigate("")
     }
-  }, [isSuccess, navigate]);
+  }, [isSuccess, navigate])
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "100vh" }}>
       <br />
@@ -76,11 +76,8 @@ const Login = () => {
               <div>{formik.errors.password}</div>
             ) : null}
           </div>
-          <div className="mb-3 text-end">
-            <Link to="/forgot-password">Forgot Password?</Link>
-          </div>
           <button
-            className="d-block border-0 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
+            className="d-block border-0 rounded mt-3 px-3 py-2 text-white fw-bold w-100 text-center text-decoration-none fs-5"
             style={{ background: "#ffd333" }}
           >
             Login
@@ -88,7 +85,7 @@ const Login = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

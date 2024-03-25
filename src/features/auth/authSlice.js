@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import authService from "./authService"
+import { toast } from "react-toastify"
 
 const getUserFromLocalStorage = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
@@ -8,6 +9,7 @@ const initialState = {
   user: getUserFromLocalStorage,
   orders: [],
   order: null,
+  deletedOrder: null,
   isError: false,
   isLoading: false,
   isSuccess: false,
@@ -80,6 +82,28 @@ export const getOrder = createAsyncThunk(
   }
 )
 
+export const updateOrder = createAsyncThunk(
+  "order/update-order",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.udpateOrder(data)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
+export const deleteOrder = createAsyncThunk(
+  "order/delete-order",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.deleteOrder(id)
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error)
+    }
+  }
+)
+
 export const resetAuthState = createAction("Reset_all_auth")
 
 export const authSlice = createSlice({
@@ -137,6 +161,21 @@ export const authSlice = createSlice({
         state.isSuccess = false
         state.message = action.error
       })
+      .addCase(updateOrder.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.order = action.payload
+        toast.success("Order status updated successfully")
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
+      })
       .addCase(getMonthlyOrders.pending, (state) => {
         state.isLoading = true
       })
@@ -160,6 +199,21 @@ export const authSlice = createSlice({
         state.yearlyOrders = action.payload
       })
       .addCase(getYearlyOrders.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.isSuccess = false
+        state.message = action.error
+      })
+      .addCase(deleteOrder.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.deletedOrder = action.payload
+        toast.success("Order deleted successfully")
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.isSuccess = false

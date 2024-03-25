@@ -1,38 +1,42 @@
-import React, { useState } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import React, { useState } from "react"
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 import {
   AiOutlineBgColors,
   AiOutlineDashboard,
+  AiOutlineLogout,
   AiOutlineShoppingCart,
   AiOutlineUser,
-} from "react-icons/ai";
-import { RiCouponLine } from "react-icons/ri";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { BiCategoryAlt } from "react-icons/bi";
-import { FaBloggerB, FaClipboardList } from "react-icons/fa";
-import { ImBlog } from "react-icons/im";
-import { IoIosNotifications } from "react-icons/io";
-import { SiBrandfolder } from "react-icons/si";
-import { Layout, Menu, theme } from "antd";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { logout } from "@features/auth/authSlice";
+} from "react-icons/ai"
+import { RiCouponLine } from "react-icons/ri"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import { BiCategoryAlt } from "react-icons/bi"
+import { FaBloggerB, FaClipboardList } from "react-icons/fa"
+import { ImBlog } from "react-icons/im"
+import { IoIosNotifications } from "react-icons/io"
+import { SiBrandfolder } from "react-icons/si"
+import { Layout, Menu, theme } from "antd"
+import { Link, Outlet, useNavigate } from "react-router-dom"
+import { useDispatch } from "react-redux"
+import { logout, resetAuthState } from "@features/auth/authSlice"
+import { clearLocalStorage } from "@utils/localStorageUtils"
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content } = Layout
 
 const MainLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(false)
   const {
     token: { colorBgContainer },
-  } = theme.useToken();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  } = theme.useToken()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSignout = async () => {
-    await dispatch(logout());
-    navigate("/");
-  };
+    await dispatch(logout())
+    clearLocalStorage()
+    dispatch(resetAuthState())
+    navigate("/")
+  }
 
   return (
     <Layout>
@@ -47,10 +51,14 @@ const MainLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[""]}
-          onClick={({ key }) => {
+          onClick={async ({ key }) => {
             if (key === "signout") {
+              await dispatch(logout())
+              clearLocalStorage()
+              dispatch(resetAuthState())
+              navigate("/")
             } else {
-              navigate(key);
+              navigate(key)
             }
           }}
           items={[
@@ -165,6 +173,11 @@ const MainLayout = () => {
               icon: <FaClipboardList className="fs-4" />,
               label: "Enquiries",
             },
+            {
+              key: "signout",
+              icon: <AiOutlineLogout className="fs-4" />,
+              label: "Sign Out",
+            },
           ]}
         />
       </Sider>
@@ -249,7 +262,7 @@ const MainLayout = () => {
         </Content>
       </Layout>
     </Layout>
-  );
-};
+  )
+}
 
-export default MainLayout;
+export default MainLayout

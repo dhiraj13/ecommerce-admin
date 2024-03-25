@@ -61,7 +61,7 @@ const Dashboard = () => {
     for (let i = 0; i < orders?.length; i++) {
       data1.push({
         key: i,
-        name: orders?.[i]?.user?.firstname + orders?.[i]?.user?.lastname,
+        name: orders?.[i]?.user?.firstname + " " + orders?.[i]?.user?.lastname,
         product: orders?.[i]?.orderItems?.length,
         price: orders?.[i]?.totalPrice,
         dprice: orders?.[i]?.totalPriceAfterDiscount,
@@ -69,7 +69,7 @@ const Dashboard = () => {
       })
     }
     setOrderData(data1)
-  }, [monthlyOrders, yearlyOrders])
+  }, [monthlyOrders, yearlyOrders, orders])
 
   const config = {
     data: ordersMonthly,
@@ -132,7 +132,7 @@ const Dashboard = () => {
   const columns = [
     {
       title: "SNo",
-      dataIndex: "key",
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Name",
@@ -146,10 +146,10 @@ const Dashboard = () => {
       title: "Total Price",
       dataIndex: "price",
     },
-    {
-      title: "Total Price After Discount",
-      dataIndex: "dprice",
-    },
+    // {
+    //   title: "Total Price After Discount",
+    //   dataIndex: "dprice",
+    // },
     {
       title: "Status",
       dataIndex: "status",

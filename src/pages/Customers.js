@@ -1,20 +1,20 @@
-import { Table } from "antd";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "@features/customers/customerSlice";
+import { Table } from "antd"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { getUsers } from "@features/customers/customerSlice"
 
 const Customers = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getUsers());
-  }, []);
-  const customerstate = useSelector((state) => state.customer);
-  const { customers } = customerstate;
+    dispatch(getUsers())
+  }, [])
+  const customerstate = useSelector((state) => state.customer)
+  const { customers } = customerstate
 
   const columns = [
     {
       title: "SNo",
-      dataIndex: "key",
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Name",
@@ -29,16 +29,16 @@ const Customers = () => {
       title: "Phone Number",
       dataIndex: "mobile",
     },
-  ];
-  const data1 = [];
+  ]
+  const data1 = []
   for (let i = 0; i < customers.length; i++) {
     if (customers[i].role !== "admin") {
       data1.push({
-        key: i + 1,
+        key: i,
         name: `${customers[i].firstname} ${customers[i].lastname}`,
         email: customers[i].email,
         mobile: customers[i].mobile,
-      });
+      })
     }
   }
 
@@ -49,7 +49,7 @@ const Customers = () => {
         <Table columns={columns} dataSource={data1} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Customers;
+export default Customers

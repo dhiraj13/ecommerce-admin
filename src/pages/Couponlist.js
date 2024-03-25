@@ -1,37 +1,37 @@
-import { Table } from "antd";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteCoupon, getCoupons } from "@features/coupon/couponSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
-import CustomModal from "@components/CustomModal";
+import { Table } from "antd"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteCoupon, getCoupons } from "@features/coupon/couponSlice"
+import { Link, useNavigate } from "react-router-dom"
+import { BiEdit } from "react-icons/bi"
+import { AiFillDelete } from "react-icons/ai"
+import CustomModal from "@components/CustomModal"
 
 const Couponlist = () => {
-  const [open, setOpen] = useState(false);
-  const [couponId, setCouponId] = useState("");
+  const [open, setOpen] = useState(false)
+  const [couponId, setCouponId] = useState("")
   const showModal = (e) => {
-    setOpen(true);
-    setCouponId(e);
-  };
+    setOpen(true)
+    setCouponId(e)
+  }
 
   const hideModal = () => {
-    setOpen(false);
-  };
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+    setOpen(false)
+  }
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getCoupons());
-  }, []);
+    dispatch(getCoupons())
+  }, [dispatch])
 
-  const couponState = useSelector((state) => state.coupon);
-  const { coupons } = couponState;
+  const couponState = useSelector((state) => state.coupon)
+  const { coupons } = couponState
 
   const columns = [
     {
       title: "SNo",
-      dataIndex: "key",
+      render: (_, __, index) => index + 1,
     },
     {
       title: "Name",
@@ -52,8 +52,8 @@ const Couponlist = () => {
       title: "Action",
       dataIndex: "action",
     },
-  ];
-  const data1 = [];
+  ]
+  const data1 = []
   for (let i = 0; i < coupons.length; i++) {
     data1.push({
       key: i + 1,
@@ -76,14 +76,14 @@ const Couponlist = () => {
           </button>
         </>
       ),
-    });
+    })
   }
 
   const handleDeleteCoupon = async (id) => {
-    await dispatch(deleteCoupon(id));
-    await dispatch(getCoupons());
-    setOpen(false);
-  };
+    await dispatch(deleteCoupon(id))
+    await dispatch(getCoupons())
+    setOpen(false)
+  }
 
   return (
     <div>
@@ -106,7 +106,7 @@ const Couponlist = () => {
         title="Are you sure you want to delete this coupon?"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Couponlist;
+export default Couponlist
