@@ -38,7 +38,7 @@ const Permission = (props) => {
       })
       setHasAccess(doesHaveAccess)
     }
-  }, [token, entityOwnerEmail, roles, type])
+  }, [token, entityOwnerEmail, roles, type, debug])
 
   const renderNoAccess = () => {
     if (typeof noAccess === "function") {
