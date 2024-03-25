@@ -1,38 +1,36 @@
-import { Table } from "antd";
-import { useEffect, useState } from "react";
-import { BiEdit } from "react-icons/bi";
-import { Link, useNavigate } from "react-router-dom";
-import { AiFillDelete } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, getProducts } from "@features/product/productSlice";
-import { getColors } from "@features/color/colorSlice";
-import CustomModal from "@components/CustomModal";
+import { Table } from "antd"
+import { useEffect, useState } from "react"
+import { BiEdit } from "react-icons/bi"
+import { Link, useNavigate } from "react-router-dom"
+import { AiFillDelete } from "react-icons/ai"
+import { useDispatch, useSelector } from "react-redux"
+import { deleteProduct, getProducts } from "@features/product/productSlice"
+import { getColors } from "@features/color/colorSlice"
+import CustomModal from "@components/CustomModal"
 
 const Productlist = () => {
-  const [open, setOpen] = useState(false);
-  const [productId, setProductId] = useState("");
+  const [open, setOpen] = useState(false)
+  const [productId, setProductId] = useState("")
 
   const showModal = (e) => {
-    setOpen(true);
-    setProductId(e);
-  };
+    setOpen(true)
+    setProductId(e)
+  }
 
   const hideModal = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getColors());
-  }, []);
+    dispatch(getProducts())
+    dispatch(getColors())
+  }, [dispatch])
 
-  const productState = useSelector((state) => state.product);
-  const { products } = productState;
-  const colorState = useSelector((state) => state.color);
-  const { colors } = colorState;
+  const productState = useSelector((state) => state.product)
+  const { products } = productState
 
   const columns = [
     {
@@ -67,8 +65,8 @@ const Productlist = () => {
       title: "Action",
       dataIndex: "action",
     },
-  ];
-  const data1 = [];
+  ]
+  const data1 = []
   for (let i = 0; i < products.length; i++) {
     data1.push({
       key: i + 1,
@@ -93,14 +91,14 @@ const Productlist = () => {
           </button>
         </>
       ),
-    });
+    })
   }
 
   const handleDeleteProduct = async (id) => {
-    await dispatch(deleteProduct(id));
-    await dispatch(getProducts());
-    setOpen(false);
-  };
+    await dispatch(deleteProduct(id))
+    await dispatch(getProducts())
+    setOpen(false)
+  }
 
   return (
     <div>
@@ -123,7 +121,7 @@ const Productlist = () => {
         title="Are you sure you want to delete this product?"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Productlist;
+export default Productlist
