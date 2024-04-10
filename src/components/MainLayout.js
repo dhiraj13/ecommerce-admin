@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons"
 import {
   AiOutlineBgColors,
@@ -16,7 +16,7 @@ import { ImBlog } from "react-icons/im"
 import { IoIosNotifications } from "react-icons/io"
 import { SiBrandfolder } from "react-icons/si"
 import { Layout, Menu, theme } from "antd"
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { logout, resetAuthState } from "@features/auth/authSlice"
 import { clearLocalStorage } from "@utils/localStorageUtils"
@@ -29,6 +29,7 @@ const MainLayout = () => {
     token: { colorBgContainer },
   } = theme.useToken()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const dispatch = useDispatch()
 
   const handleSignout = async () => {
@@ -37,6 +38,22 @@ const MainLayout = () => {
     dispatch(resetAuthState())
     navigate("/")
   }
+
+  const handleMenuClick = async ({ key }) => {
+    if (key === "signout") {
+      await dispatch(logout())
+      clearLocalStorage()
+      dispatch(resetAuthState())
+      navigate("/")
+    } else {
+      navigate(key)
+    }
+  }
+
+  const selectedKey = useMemo(
+    () => pathname?.replace("/admin/", ""),
+    [pathname]
+  )
 
   return (
     <Layout>
@@ -51,16 +68,8 @@ const MainLayout = () => {
           theme="dark"
           mode="inline"
           defaultSelectedKeys={[""]}
-          onClick={async ({ key }) => {
-            if (key === "signout") {
-              await dispatch(logout())
-              clearLocalStorage()
-              dispatch(resetAuthState())
-              navigate("/")
-            } else {
-              navigate(key)
-            }
-          }}
+          selectedKeys={[selectedKey]}
+          onClick={handleMenuClick}
           items={[
             {
               key: "",
