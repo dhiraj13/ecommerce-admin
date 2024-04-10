@@ -79,7 +79,7 @@ const Dashboard = () => {
       return "#ffd333"
     },
     label: {
-      position: "middle",
+      // position: "middle",
       style: {
         fill: "#FFFFFF",
         opacity: 1,
@@ -108,7 +108,7 @@ const Dashboard = () => {
       return "#ffd333"
     },
     label: {
-      position: "middle",
+      // position: "middle",
       style: {
         fill: "#FFFFFF",
         opacity: 1,

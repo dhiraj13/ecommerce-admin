@@ -30,7 +30,7 @@ const Productlist = () => {
   }, [dispatch])
 
   const productState = useSelector((state) => state.product)
-  const { products } = productState
+  const { isLoading, products } = productState
 
   const columns = [
     {
@@ -112,7 +112,7 @@ const Productlist = () => {
         </button>
       </div>
       <div>
-        <Table columns={columns} dataSource={data1} />
+        <Table columns={columns} dataSource={data1} loading={isLoading} />
       </div>
       <CustomModal
         hideModal={hideModal}
